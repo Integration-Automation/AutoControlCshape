@@ -1,4 +1,9 @@
-﻿using AutoControlCShapeBind.OpenDriverProcess;
+﻿using AutoControlCShapeBind.Bind.ImageBind;
+using AutoControlCShapeBind.Bind.KeyboardBind;
+using AutoControlCShapeBind.Bind.MouseBind;
+using AutoControlCShapeBind.Bind.RecordBind;
+using AutoControlCShapeBind.Bind.ScreenBind;
+using AutoControlCShapeBind.OpenDriverProcess;
 using AutoControlCShapeBind.Socket;
 
 namespace AutoControlCShapeBind.DriverManager;
@@ -9,20 +14,35 @@ public class Driver
     private ClientSocket _clientSocket ;
     private DriverProcess _driverProcess = new();
     private string _driverPath;
+    public readonly Image Image;
+    public readonly Screen Screen;
+    public readonly Keyboard Keyboard;
+    public readonly Mouse Mouse;
+    public readonly Record Record;
 
     public Driver(string serverHost, int serverPort, string driverPath, string platform)
     {
         _driverPath = driverPath;
         SetDriver(platform);
         _clientSocket = new ClientSocket(serverHost, serverPort);
+        Image = new Image(this);
+        Screen = new Screen(this);
+        Keyboard = new Keyboard(this);
+        Mouse = new Mouse(this);
+        Record = new Record(this);
         _driverProcess?.StartDiver(_driverPath);
     }
     
-    public Driver(string serverHost, int serverPort, string driverPath, string param, string platform)
+    public Driver(string serverHost, int serverPort, string driverPath, string platform,  string param)
     {
         _driverPath = driverPath;
         _clientSocket = new ClientSocket(serverHost, serverPort);
         SetDriver(platform);
+        Image = new Image(this);
+        Screen = new Screen(this);
+        Keyboard = new Keyboard(this);
+        Mouse = new Mouse(this);
+        Record = new Record(this);
         _driverProcess?.StartDiver(_driverPath, param);
     }
 
@@ -68,6 +88,7 @@ public class Driver
 
     public void Quit()
     {
+        SendCommand("quit_server");
         _clientSocket.CloseClient();
         _driverProcess.Close();
     }

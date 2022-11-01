@@ -5,7 +5,7 @@ namespace AutoControlCShapeBind.Socket;
 
 public class ClientSocket
 {
-    private TcpClient? tcpClient;
+    private TcpClient? _tcpClient;
     private NetworkStream? _networkStream;
     private StreamReader? _streamReader;
     private StreamWriter? _streamWriter;
@@ -29,18 +29,18 @@ public class ClientSocket
             {
                 Console.WriteLine("command is: " + dataToSend);
                 if (_host != null)
-                    tcpClient = new TcpClient(_host, _port);
+                    _tcpClient = new TcpClient(_host, _port);
                 else
                     throw new SystemException("Can't init DriverManager");
-                _networkStream = tcpClient.GetStream();
-                _streamReader = new StreamReader(_networkStream);
+                _networkStream = _tcpClient.GetStream();
                 _streamWriter = new StreamWriter(_networkStream) { NewLine = "\r\n", AutoFlush = true };
                 _streamWriter.WriteLine(dataToSend);
                 _streamWriter.Flush();
                 retry = false;
                 if (!dataToSend.Equals("quit_server"))
                 {
-                    string? readData = _streamReader.ReadLine();
+                    _streamReader = new StreamReader(_networkStream);
+                    var readData = _streamReader.ReadLine();
                     while (readData != null && !readData.Equals("Return_Data_Over_JE"))
                     {
                         Console.WriteLine(readData);
@@ -48,6 +48,7 @@ public class ClientSocket
                         readData = _streamReader.ReadLine();
                     }
                 }
+                CloseClient();
             }
             catch (Exception e)
             {
@@ -65,6 +66,6 @@ public class ClientSocket
         _streamReader?.Close();
         _streamWriter?.Close();
         _networkStream?.Close();
-        tcpClient?.Close();
+        _tcpClient?.Close();
     }
 }

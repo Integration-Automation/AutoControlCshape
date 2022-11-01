@@ -5,21 +5,39 @@ namespace AutoControlCShapeBind.OpenDriverProcess;
 public class DriverProcess
 {
 
-    private static Process? _process;
+    private ProcessStartInfo? _processStartInfo;
+    private Process? _process;
 
     public void StartDiver(string driverPath)
     {
-        _process = Process.Start(driverPath);
+        _processStartInfo = new ProcessStartInfo(driverPath)
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        _process = Process.Start(_processStartInfo);
     }
     
-    public void StartDiver(string driverPath, String param)
+    public void StartDiver(string driverPath, string param)
     {
-        _process = Process.Start(driverPath, param);
+        
+        _processStartInfo = new ProcessStartInfo(driverPath, param)
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        _process = Process.Start(_processStartInfo);
     }
 
     public void Close()
     {
-        _process?.Close();
+        var processes = Process.GetProcessesByName("generate_autocontrol_driver_win");
+        foreach (var process in processes)
+        {
+            process.CloseMainWindow();
+            process.Kill();
+            process.Close();
+        }
     }
     
 }
