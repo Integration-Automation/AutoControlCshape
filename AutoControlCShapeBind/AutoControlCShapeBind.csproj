@@ -4,6 +4,23 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageVersion>0.0.1</PackageVersion>
+        <Title>AutoControl</Title>
+        <Description>Python Framework AutoControl's C# Bind</Description>
+        <Copyright>JE-Chen</Copyright>
+        <PackageProjectUrl>https://github.com/JE-Chen/AutoControlCshape</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/JE-Chen/AutoControlCshape/blob/dev/license</PackageLicenseUrl>
+        <PackageIcon>je_driver_icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/JE-Chen/AutoControlCshape</RepositoryUrl>
+        <RepositoryType>Public</RepositoryType>
+        <PackageTags>Automation Testing</PackageTags>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="je_driver_icon.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
 
 </Project>
