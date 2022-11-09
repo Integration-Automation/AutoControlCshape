@@ -16,7 +16,7 @@ public class Record
     }
 
     public string StopRecord(){
-        return _driver.SendCommand("[[\"stopRecord\"]]");
+        return _driver.SendCommand("[[\"stop_record\"]]");
     }
     
 }

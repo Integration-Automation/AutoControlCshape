@@ -7,8 +7,8 @@ public class ClientSocket
 {
     private TcpClient? _tcpClient;
     private NetworkStream? _networkStream;
-    private StreamReader? _streamReader;
     private StreamWriter? _streamWriter;
+    private StreamReader? _streamReader;
     private readonly string? _host;
     private readonly int _port;
 
@@ -27,7 +27,6 @@ public class ClientSocket
         {
             try
             {
-                Console.WriteLine("command is: " + dataToSend);
                 if (_host != null)
                     _tcpClient = new TcpClient(_host, _port);
                 else
@@ -35,7 +34,6 @@ public class ClientSocket
                 _networkStream = _tcpClient.GetStream();
                 _streamWriter = new StreamWriter(_networkStream) { NewLine = "\r\n", AutoFlush = true };
                 _streamWriter.WriteLine(dataToSend);
-                _streamWriter.Flush();
                 retry = false;
                 if (!dataToSend.Equals("quit_server"))
                 {
@@ -64,7 +62,6 @@ public class ClientSocket
     public void CloseClient()
     {
         _streamReader?.Close();
-        _streamWriter?.Close();
         _networkStream?.Close();
         _tcpClient?.Close();
     }
