@@ -8,14 +8,19 @@ public class DriverProcess
     private ProcessStartInfo? _processStartInfo;
     private Process? _process;
 
+    private void ProcessInit()
+    {
+        _process = Process.Start(_processStartInfo);
+    }
+
     public void StartDiver(string driverPath)
     {
         _processStartInfo = new ProcessStartInfo(driverPath)
         {
             UseShellExecute = false,
-            CreateNoWindow = true
+            CreateNoWindow = true,
         };
-        _process = Process.Start(_processStartInfo);
+        ProcessInit();
     }
     
     public void StartDiver(string driverPath, string param)
@@ -24,9 +29,9 @@ public class DriverProcess
         _processStartInfo = new ProcessStartInfo(driverPath, param)
         {
             UseShellExecute = false,
-            CreateNoWindow = true
+            CreateNoWindow = true,
         };
-        _process = Process.Start(_processStartInfo);
+        ProcessInit();
     }
 
     public void Close()

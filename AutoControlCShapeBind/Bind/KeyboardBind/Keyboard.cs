@@ -17,7 +17,7 @@ public class Keyboard
     {
         return checkBool ? "true" : "false";
     }
-    
+
      public string KeysTable() {
         return _driver.SendCommand(("[[\"keys_table\"]]"));
     }
@@ -78,17 +78,17 @@ public class Keyboard
     public string Hotkey(ArrayList keyCodeList, bool isShift)
     {
         var hotKeyCommandBuildBuffer = new StringBuilder();
-        hotKeyCommandBuildBuffer.Append("[[\"hotkey\", ").Append("{{").Append("\"key_code_list\": ");
+        hotKeyCommandBuildBuffer.Append("[[\"hotkey\", ").Append('{').Append("\"key_code_list\": ");
         hotKeyCommandBuildBuffer.Append('[');
         for (int index = 0; index < keyCodeList.Count - 1; index++) {
-            if(index < keyCodeList.Count - 1)
+            if(index < keyCodeList.Count - 2)
                 hotKeyCommandBuildBuffer.Append('"').Append(keyCodeList[index]).Append('"').Append(", ");
             else
                 hotKeyCommandBuildBuffer.Append('"').Append(keyCodeList[index]).Append('"');
         }
         hotKeyCommandBuildBuffer.Append(']');
-        hotKeyCommandBuildBuffer.Append(string.Format(", \"is_shift\": {0}}}]]", MakeBoolToText(isShift)));
+        hotKeyCommandBuildBuffer.Append($", \"is_shift\": {MakeBoolToText(isShift)}}}]]");
+        Console.WriteLine(hotKeyCommandBuildBuffer.ToString());
         return _driver.SendCommand(hotKeyCommandBuildBuffer.ToString());
     }
-    
 }
