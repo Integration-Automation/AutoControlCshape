@@ -10,7 +10,12 @@ public class DriverProcess
 
     private void ProcessInit()
     {
-        _process = Process.Start(_processStartInfo);
+        if (_processStartInfo != null) 
+            _process = Process.Start(_processStartInfo);
+        else
+        {
+            throw new Exception("Can't start process");
+        }
     }
 
     public void StartDiver(string driverPath)
